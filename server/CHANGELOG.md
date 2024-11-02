@@ -5,3 +5,4 @@
 - Initial Version
 - Dotenv validation
 - Bare minimum express with CORS is setup
+- Working on the basic structure of the database in prisma/schema.prisma

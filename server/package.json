@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon",
-    "test": "jest"
+    "test": "jest",
+    "migrate": "npx prisma migrate dev"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.26.0",

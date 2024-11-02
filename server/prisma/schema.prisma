@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("DATABASE_URL")
+  provider = "sqlite"
+  url = "file:./dev.db"
 }
 
 model Users {
@@ -15,7 +15,8 @@ model Users {
   email String 
   password String
   posts Posts[]
-  votes Votes[]
+  upvotes Upvotes[]
+  downvotes Downvotes[]
   comments Comments[]
   sessions Sessions[]
   profilePictures ProfilePictures?
@@ -44,22 +45,27 @@ model Posts {
   text String
   author Users @relation(fields: [authorId], references: [id])
   authorId Int
-  votes Votes[]
+  upvotes Upvotes[]
+  downvotes Downvotes[]
   comments Comments[]
 }
 
-enum VoteType {
-  UPVOTE
-  DOWNVOTE
-}
-
-model Votes {
+model Upvotes {
   id Int @id @default(autoincrement())
-  voteType VoteType
-  post Posts @relation(fields: [postId], references: [id])
-  postId Int
+  createdAt DateTime @default(now())
   user Users @relation(fields: [userId], references: [id])
   userId Int
+  post Posts @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+model Downvotes {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user Users @relation(fields: [userId], references: [id])
+  userId Int
+  post Posts @relation(fields: [postId], references: [id])
+  postId Int
 }
 
 model Comments {

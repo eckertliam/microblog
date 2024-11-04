@@ -1,9 +1,17 @@
-import React from "react";
+import React from 'react';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
+import Login from './components/Login/Login';
+import { PrivateRoute } from './components/PrivateRoute';
 
 export default function App() {
-  return (
-    <div>
-      <h1>Microblog</h1>
-    </div>
-  );
+    // TODO: Add Register route
+    // TODO: Add Home route
+    // TODO: Add Profile route
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path='/login' Component={Login} />
+            </Routes>
+        </BrowserRouter>
+    );
 }

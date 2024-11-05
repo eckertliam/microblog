@@ -10,7 +10,9 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/login' Component={Login} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/' element={<PrivateRoute element={<h1>Home</h1>} redirectTo='/login' />} />
+                <Route path='*' element={<h1>Not Found</h1>} />
             </Routes>
         </BrowserRouter>
     );

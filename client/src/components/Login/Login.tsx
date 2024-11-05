@@ -4,14 +4,16 @@ import './Login.css';
 interface LoginState {
     username: string;
     password: string;
+    showPassword?: boolean;
 }
 
 export default function Login(): JSX.Element {
     const [loginState, setLoginState] = useState<LoginState>({
         username: '',
-        password: ''
+        password: '',
+        showPassword: false
     });
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
         setLoginState({
@@ -29,22 +31,29 @@ export default function Login(): JSX.Element {
     // TODO: handle reroute to register page
     return (
         <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username:</label>
             <input
                 type="text"
                 name="username"
                 id="username"
                 value={loginState.username}
                 onChange={handleChange}
+                placeholder="Username"
             />
-            <label htmlFor="password">Password:</label>
-            <input
-                type="password"
-                name="password"
-                id="password"
-                value={loginState.password}
-                onChange={handleChange}
-            />
+            <br />
+            <div>
+                <input
+                    type={loginState.showPassword ? 'password' : 'text'}
+                    name="password"
+                    id="password"
+                    value={loginState.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                />
+                <button type="button" onClick={() => setLoginState({ ...loginState, showPassword: !loginState.showPassword })}>
+                    {loginState.showPassword ? 'Hide' : 'Show'}
+                </button>
+            </div>
+            <br />
             <button type="submit">Login</button>
         </form>
     )

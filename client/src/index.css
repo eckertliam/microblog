@@ -1,4 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 :root {
+    --gunmetal: #122c34ff;
+    --moonstone: #779fa1ff;
+    --indigo-dye: #224870ff;
+    --bittersweet: #ff5e5bff;
+    --bole: #7f534bff;
+}
+
+#root {
     width: 100%;
     height: 100%;
     font-family: 'Roboto', sans-serif;

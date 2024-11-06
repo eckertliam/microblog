@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import { Form, Button, Container } from 'react-bootstrap';
 import './Login.css';
+import Header from '../Header/Header';
 
 interface LoginState {
     username: string;
     password: string;
-    showPassword?: boolean;
 }
 
 export default function Login(): JSX.Element {
     const [loginState, setLoginState] = useState<LoginState>({
         username: '',
-        password: '',
-        showPassword: false
+        password: ''
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -30,31 +30,36 @@ export default function Login(): JSX.Element {
 
     // TODO: handle reroute to register page
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="username"
-                id="username"
-                value={loginState.username}
-                onChange={handleChange}
-                placeholder="Username"
-            />
-            <br />
-            <div>
-                <input
-                    type={loginState.showPassword ? 'password' : 'text'}
-                    name="password"
-                    id="password"
-                    value={loginState.password}
-                    onChange={handleChange}
-                    placeholder="Password"
-                />
-                <button type="button" onClick={() => setLoginState({ ...loginState, showPassword: !loginState.showPassword })}>
-                    {loginState.showPassword ? 'Hide' : 'Show'}
-                </button>
-            </div>
-            <br />
-            <button type="submit">Login</button>
-        </form>
+        <>
+            <Header />
+            <Container className='login-container'>
+                <Form onSubmit={handleSubmit} className='login-form'>
+                    <h2 className='login-header'>Login</h2>
+                    <Form.Group controlId='form-username'>
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control
+                            type='text'
+                            name='username'
+                            value={loginState.username}
+                            onChange={handleChange}
+                            placeholder='Username'
+                        />
+                    </Form.Group>
+                    <Form.Group controlId='form-password'>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type='password'
+                            name='password'
+                            value={loginState.password}
+                            onChange={handleChange}
+                            placeholder='Password'
+                        />
+                    </Form.Group>
+                    <Button variant='primary' type='submit' className='login-btn'>
+                        Login
+                    </Button>
+                </Form>
+            </Container>
+        </>
     )
 }

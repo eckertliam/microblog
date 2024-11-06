@@ -4,11 +4,8 @@ body {
 }
 
 :root {
-    --gunmetal: #122c34ff;
-    --moonstone: #779fa1ff;
-    --indigo-dye: #224870ff;
-    --bittersweet: #ff5e5bff;
-    --bole: #7f534bff;
+    --primary-color: #172A3A;
+    --secondary-color: #508991;
 }
 
 #root {

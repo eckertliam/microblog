@@ -36,7 +36,6 @@ export default function Login(): JSX.Element {
                 <Form onSubmit={handleSubmit} className='login-form'>
                     <h2 className='login-header'>Login</h2>
                     <Form.Group controlId='form-username'>
-                        <Form.Label>Username</Form.Label>
                         <Form.Control
                             type='text'
                             name='username'
@@ -45,8 +44,8 @@ export default function Login(): JSX.Element {
                             placeholder='Username'
                         />
                     </Form.Group>
+                    <br />
                     <Form.Group controlId='form-password'>
-                        <Form.Label>Password</Form.Label>
                         <Form.Control
                             type='password'
                             name='password'

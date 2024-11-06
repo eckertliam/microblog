@@ -4,8 +4,9 @@ body {
 }
 
 :root {
-    --primary-color: #172A3A;
-    --secondary-color: #508991;
+    --primary-color: #0B132B;
+    --secondary-color: #3A506B;
+    --accent-color: #E4572E;
 }
 
 #root {

@@ -1,11 +1,12 @@
 import React from 'react';
+import { Navbar, NavbarBrand } from 'react-bootstrap';
 import './Header.css';
 
 export default function Header(): JSX.Element {
     // TODO: Add nav links
     return (
-        <header>
-            <h1>Microblog</h1>
-        </header>
+        <Navbar className='navbar'>
+            <NavbarBrand className='brand' href='/'>Microblog</NavbarBrand>
+        </Navbar>
     )
 }

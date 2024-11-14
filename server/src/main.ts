@@ -1,17 +1,21 @@
 import express, { Express } from 'express';
 import cors, { CorsOptions } from 'cors';
-import { Env, readEnv } from './envVars';
+import dotenv from 'dotenv';
+import path from 'path';
 
-const envObj: Env = readEnv();
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 
 const app: Express = express();
 
 const corsOptions: CorsOptions = {
-    origin: envObj.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN,
 };
+
+const PORT: number = parseInt(process.env.PORT || '3000', 10);
 
 app.use(cors(corsOptions));
 
-app.listen(envObj.PORT, () => {
-    console.log(`Server listening on port ${envObj.PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
 });

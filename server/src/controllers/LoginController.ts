@@ -7,8 +7,8 @@ export const loginController = async (req: Request, res: Response) => {
         const validatedData: LoginSchema = loginSchema.parse(req.body);
         // TODO: Check if user exists
         // TODO: Check if password is correct
-        // TODO: Generate JWT
-        // TODO: Send JWT in response
+        // TODO: Generate session
+        // TODO: Send session in response
     } catch (error) {
         console.log(error);
     }

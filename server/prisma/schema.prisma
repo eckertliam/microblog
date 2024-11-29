@@ -83,5 +83,5 @@ model Sessions {
   expiresAt DateTime
   user Users @relation(fields: [userId], references: [id])
   userId Int
-  token String
+  token String @unique
 }

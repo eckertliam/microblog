@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import { sessionController } from './controllers/SessionController';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
@@ -15,6 +16,10 @@ const corsOptions: CorsOptions = {
 const PORT: number = parseInt(process.env.PORT || '3000', 10);
 
 app.use(cors(corsOptions));
+
+app.use(express.json());
+
+app.post('/session', sessionController);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

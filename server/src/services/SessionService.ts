@@ -1,4 +1,4 @@
-import prisma from '../prisma';
+import prisma from '../db';
 import { randomBytes } from 'crypto';
 
 const SESSION_EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
@@ -8,7 +8,7 @@ const SESSION_EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
  * @returns The number of sessions deleted
  */
 export async function cleanUpExpiredSessions(): Promise<number> {
-    const deletedSessions = await prisma.sessions.deleteMany({
+    const deletedSessions = await prisma.session.deleteMany({
         where: { expiresAt: { lt: new Date(Date.now()) } },
     });
     return deletedSessions.count;
@@ -21,7 +21,7 @@ export async function cleanUpExpiredSessions(): Promise<number> {
  */
 export async function newSession(userId: number): Promise<string> {
     const token = randomBytes(64).toString('hex').slice(0, 64);
-    const session = await prisma.sessions.create({
+    const session = await prisma.session.create({
         data: {
             userId,
             token,
@@ -38,7 +38,7 @@ export async function newSession(userId: number): Promise<string> {
  * @returns Whether the session is valid
  */
 export async function isValidSession(token: string): Promise<boolean> {
-    const session = await prisma.sessions.findFirst({
+    const session = await prisma.session.findFirst({
         where: { token },
     });
     // if session is null or expired, return false

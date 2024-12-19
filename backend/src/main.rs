@@ -1,3 +1,7 @@
+mod connect_db;
+mod models;
+mod schema;
+
 use std::env;
 
 use axum::{
@@ -26,6 +30,8 @@ async fn main() {
         address = env::var("DEV_ADDRESS").unwrap();
         port = env::var("DEV_PORT").unwrap();
     }
+
+    let connection = &mut connect_db::establish_connection();
 
     let app = Router::new()
         .route("/", get(hello_world));

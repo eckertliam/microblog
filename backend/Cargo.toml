@@ -10,3 +10,4 @@ prod = []
 axum = "0.7"
 tokio = { version = "1.0", features = ["full"] }
 dotenvy = "0.15.7"
+diesel = { version = "2.2", features = ["postgres"] }

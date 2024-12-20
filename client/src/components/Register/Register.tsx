@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API_URL } from '../../config';
 
 interface RegisterFormData {
     email: string;
@@ -64,11 +65,22 @@ const Register = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validateForm()) {
-            // TODO: Implement registration logic
-            console.log('Form submitted:', formData);
+            const response = await fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            // TODO: handle response
+            if (response.ok) {
+                console.log('Registration successful');
+            } else {
+                console.error('Registration failed');
+            }
         }
     };
 

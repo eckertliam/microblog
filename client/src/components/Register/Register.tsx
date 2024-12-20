@@ -41,6 +41,10 @@ const Register = () => {
             newErrors.password = 'Password is required';
         } else if (formData.password.length < 6) {
             newErrors.password = 'Password must be at least 6 characters';
+        } else if (formData.password.length > 20) {
+            newErrors.password = 'Password must be less than 20 characters';
+        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(formData.password)) {
+            newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
         }
 
         // Confirm password validation

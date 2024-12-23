@@ -1,14 +1,15 @@
-mod connect_db;
+mod db;
 mod models;
 mod schema;
 mod utils;
 mod routes;
 
 use std::env;
+use routes::register_user;
 use tower_http::cors::CorsLayer;
 use axum::{
     http::{HeaderValue, Method},
-    routing::get,
+    routing::{get, post},
     Router,
 };
 
@@ -43,7 +44,7 @@ async fn main() {
             .unwrap();
     }
 
-    let connection = &mut connect_db::establish_connection();
+    let pool = db::create_pool().await;
 
     let cors_layer = CorsLayer::new()
         .allow_origin(frontend_url)
@@ -51,7 +52,9 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(hello_world))
-        .layer(cors_layer);
+        .route("/register", post(register_user))
+        .layer(cors_layer)
+        .with_state(pool);
 
     let listener = tokio::net::TcpListener::bind(format!("{}:{}", address, port)).await.unwrap();
     axum::serve(listener, app).await.unwrap();

@@ -1,6 +1,7 @@
 mod connect_db;
 mod models;
 mod schema;
+mod utils;
 
 use std::env;
 

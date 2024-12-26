@@ -1,5 +1,12 @@
+import Register from "./components/Register/Register"
+
 function App() {
-    return <div>Hello World</div>
+    return (
+        <>
+            <h1>Microblog</h1>
+            <Register />
+        </>
+    )
 }
 
 export default App

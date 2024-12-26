@@ -1,5 +1,7 @@
 use diesel::prelude::*;
+use diesel_async::{AsyncPgConnection, RunQueryDsl};
 use chrono::NaiveDateTime;
+use crate::schema::users;
 use crate::utils;
 
 #[derive(Queryable, Selectable, AsChangeset)]
@@ -13,6 +15,24 @@ pub struct User {
     pub salt: String,
     pub created_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
+}   
+
+impl User {
+    pub async fn find_by_email(conn: &mut AsyncPgConnection, email: &str) -> Option<User> {
+        users::table
+            .filter(users::email.eq(email))
+            .first(conn)
+            .await
+            .ok()
+    }
+
+    pub async fn find_by_username(conn: &mut AsyncPgConnection, username: &str) -> Option<User> {
+        users::table
+            .filter(users::username.eq(username))
+            .first(conn)
+            .await
+            .ok()
+    }
 }
 
 #[derive(Insertable)]

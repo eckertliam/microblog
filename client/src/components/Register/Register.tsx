@@ -44,9 +44,7 @@ const Register = () => {
             newErrors.password = 'Password must be at least 6 characters';
         } else if (formData.password.length > 20) {
             newErrors.password = 'Password must be less than 20 characters';
-        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(formData.password)) {
-            newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
-        }
+        } // TODO: check if password is already taken by sending a request to the backend
 
         // Confirm password validation
         if (formData.password !== formData.confirmPassword) {
@@ -68,12 +66,18 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validateForm()) {
+            console.log(`${API_URL}/register`);
             const response = await fetch(`${API_URL}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    email: formData.email,
+                    username: formData.username,
+                    password: formData.password,
+                    confirm_password: formData.confirmPassword
+                })
             })
             // TODO: handle response
             if (response.ok) {

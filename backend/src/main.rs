@@ -8,7 +8,7 @@ use std::env;
 use routes::register_user;
 use tower_http::cors::CorsLayer;
 use axum::{
-    http::HeaderValue,
+    http::{self, HeaderValue, Method},
     routing::{get, post},
     Router,
 };
@@ -46,25 +46,17 @@ async fn main() {
 
     let pool = db::create_pool().await;
 
-    /*let cors_layer = CorsLayer::new()
-        .allow_origin(frontend_url.clone())
+    let cors_layer = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
+        .allow_origin(frontend_url)
         .allow_headers([
             http::header::CONTENT_TYPE,
-            http::header::AUTHORIZATION,
-            http::header::ACCEPT,
-        ])
-        .allow_credentials(true)
-        .max_age(Duration::from_secs(3600))
-        .expose_headers([
-            http::header::CONTENT_TYPE,
-            http::header::AUTHORIZATION,
-        ]);*/
+        ]);
 
     let app = Router::new()
         .route("/", get(hello_world))
         .route("/register", post(register_user))
-        .layer(CorsLayer::permissive())
+        .layer(cors_layer)
         .with_state(pool);
 
     let listener = tokio::net::TcpListener::bind(format!("{}:{}", address, port)).await.unwrap();

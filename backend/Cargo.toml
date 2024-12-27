@@ -7,7 +7,13 @@ edition = "2021"
 prod = []
 
 [dependencies]
-axum = "0.7"
+axum = { version = "0.7", features = ["json", "macros"] }
 tokio = { version = "1.0", features = ["full"] }
 dotenvy = "0.15.7"
-diesel = { version = "2.2", features = ["postgres"] }
+diesel = { version = "2.2", features = ["postgres", "chrono"] }
+sha2 = "0.10.8"
+rand = "0.8.5"
+chrono = { version = "0.4", features = ["serde"] }
+tower-http = { version = "0.6.2", features = ["cors"] }
+serde = { version = "1.0", features = ["derive"] }
+diesel-async = { version = "0.5.2", features = ["postgres", "deadpool"] }

@@ -24,6 +24,20 @@ pub async fn register_user(
     State(pool): State<DbPool>,
     Json(register_request): Json<RegisterRequest>
 ) -> (StatusCode, Json<RegisterResponse>) {
+    // validate the password
+    if !validate_password(&register_request.password) {
+        return (StatusCode::BAD_REQUEST, Json(RegisterResponse {
+            message: "Invalid password".to_string(),
+        }));
+    }
+
+    // check if the passwords match
+    if register_request.password != register_request.confirm_password {
+        return (StatusCode::BAD_REQUEST, Json(RegisterResponse {
+            message: "Passwords do not match".to_string(),
+        }));
+    }
+
     let mut conn = pool.get().await.expect("Failed to get connection from pool");
     // check if user email already exists
     if User::find_by_email(&mut conn, &register_request.email).await.is_some() {
@@ -55,4 +69,39 @@ pub async fn register_user(
             message: "User registered successfully".to_string(),
         }));
     }
+}
+
+static MIN_PASSWORD_LENGTH: usize = 8;
+static MAX_PASSWORD_LENGTH: usize = 32;
+static SPECIAL_CHARS: &str = "!@#$%&?<>";
+static NUMBERS: &str = "0123456789";
+static LOWERCASE_LETTERS: &str = "abcdefghijklmnopqrstuvwxyz";
+static UPPERCASE_LETTERS: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+fn validate_password(password: &str) -> bool {
+    // check if password length is within the allowed range
+    if password.len() < MIN_PASSWORD_LENGTH || password.len() > MAX_PASSWORD_LENGTH {
+        return false;
+    }
+
+    // check if password contains at least one special character and one number
+    let mut has_special_char = false;
+    let mut has_number = false;
+
+    for ch in password.chars() {
+        // check for special characters and numbers to flip flags
+        if SPECIAL_CHARS.contains(ch) {
+            has_special_char = true;
+        } else if NUMBERS.contains(ch) {
+            has_number = true;
+        } else if LOWERCASE_LETTERS.contains(ch) || UPPERCASE_LETTERS.contains(ch) {
+            // skip over letters
+            continue;
+        } else {
+            // if the character is not a special character, number, or letter, return false
+            return false;
+        }
+    }
+    // check if the password contains at least one special character and one number
+    has_special_char && has_number
 }
